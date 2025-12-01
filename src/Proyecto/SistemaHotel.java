@@ -391,7 +391,6 @@ public class SistemaHotel {
     public boolean eliminarHuesped(int dni) {
         int indice = -1;
         
-        // 1. Buscamos la posición
         for (int i = 0; i < cantHuespedes; i++) {
             if (listaHuespedes[i].getDni() == dni) {
                 indice = i;
@@ -399,7 +398,6 @@ public class SistemaHotel {
             }
         }
 
-        // 2. Si existe, lo borramos y reordenamos el arreglo
         if (indice != -1) {
             for (int i = indice; i < cantHuespedes - 1; i++) {
                 listaHuespedes[i] = listaHuespedes[i + 1];
@@ -419,7 +417,6 @@ public class SistemaHotel {
         return null;
     }
 
-    // [Requisito 5] Crear Reserva (AHORA CON VALIDACIÓN)
     public boolean crearReserva(Reserva r) {
         
         // PASO 1: Validar si las fechas tienen sentido (Inicio < Fin)
@@ -461,15 +458,10 @@ public class SistemaHotel {
         for (int i = 0; i < cantReservas; i++) {
             Reserva r = listaReservas[i];
             
-            // Verificamos solo reservas del mismo tipo que no estén canceladas
-            // (Asumimos que "Confirmado" y "Pendiente" ocupan lugar)
             if (r.getTipoHabitacion().equalsIgnoreCase(tipoHabitacion) && 
                !r.getEstado().equalsIgnoreCase("Cancelada")) {
                 
-                // LÓGICA DE CRUCE DE FECHAS:
-                // Se cruzan si NO ocurre que:
-                // (La reserva antigua termina antes de que empiece la nueva) O 
-                // (La reserva antigua empieza después de que termine la nueva)
+ 
                 
                 boolean reservaTerminaAntes = r.getFechaFin().esMenorAOtraFecha(inicioSolicitado);
                 boolean reservaEmpiezaDespues = r.getFechaInicio().esMayorAOtraFecha(finSolicitado);
@@ -559,7 +551,6 @@ public class SistemaHotel {
     public String generarReporteOcupacion() {
         String reporte = "=== REPORTE DE ESTADO DE HABITACIONES ===\n";
         for(int i=0; i<cantHabitaciones; i++) {
-            // Polimorfismo: Usa el método generarReporte() de Habitacion
             reporte += listaHabitaciones[i].generarReporte() + "\n--------------------\n";
         }
         return reporte;
@@ -576,7 +567,7 @@ public class SistemaHotel {
             Fecha fechaFac = f.getEmision();
 
             // Filtro de fechas (Mayor o igual al inicio Y Menor o igual al fin)
-            // Nota: Asume que tienes estos métodos booleanos en tu clase Fecha
+     
             boolean validaInicio = fechaFac.esMayorAOtraFecha(inicio) || fechaFac.esIgualAOtraFecha(inicio);
             boolean validaFin = fechaFac.esMenorAOtraFecha(fin) || fechaFac.esIgualAOtraFecha(fin);
 
