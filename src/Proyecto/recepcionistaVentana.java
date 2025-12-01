@@ -760,12 +760,40 @@ public class recepcionistaVentana extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField10ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
-        Estadia estadia = sistema.buscarRefxId(Integer.parseInt(this.jTextField18.getText()));
-        ServicioAdicional servicio = sistema.buscarRefxNombre(this.jTextField19.getText());
+        try {
+        int idEstadia = Integer.parseInt(this.jTextField18.getText());
+        Estadia estadia = sistema.buscarRefxId(idEstadia);
+        
+        String nombreServicio = this.jTextField19.getText();
+        ServicioAdicional servicio = sistema.buscarRefxNombre(nombreServicio);
+        
         int cantidad = Integer.parseInt(this.jTextField20.getText());
-        sistema.registrarConsumo(estadia, servicio, cantidad);
-        cargarTabEstadia();
+
+        // VALIDACIÓN IMPORTANTE
+        if (estadia == null) {
+            JOptionPane.showMessageDialog(this, "Estadía no encontrada.");
+            return;
+        }
+        if (servicio == null) {
+            JOptionPane.showMessageDialog(this, "Servicio no encontrado. Verifique el nombre.");
+            return; // Detiene la ejecución para no guardar null
+        }
+
+        boolean resultado = sistema.registrarConsumo(estadia, servicio, cantidad);
+        
+        if (resultado) {
+            JOptionPane.showMessageDialog(this, "Consumo registrado correctamente.");
+            cargarTabEstadia();
+            // Limpiar campos si deseas
+            this.jTextField19.setText("");
+            this.jTextField20.setText("");
+        } else {
+            JOptionPane.showMessageDialog(this, "No se pudo registrar el consumo (Estadía no activa o error).");
+        }
+        
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Por favor ingrese números válidos en ID y Cantidad.");
+    }
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -895,9 +923,9 @@ public class recepcionistaVentana extends javax.swing.JFrame {
             datos[1]=arreglo[i].getEmision().verFecha();
             datos[2]=arreglo[i].getEstadia().getReserva().getHuesped().getNombres()+" "+arreglo[i].getEstadia().getReserva().getHuesped().getApellidos();
             datos[3]=arreglo[i].getMetodoPago();
-            datos[4]=String.valueOf(arreglo[i].getTotalHabitacion());
-            datos[5]=String.valueOf(arreglo[i].getTotalServicios());
-            datos[6]=String.valueOf(arreglo[i].getTotalGeneral());
+            datos[4] = String.format("%.2f", arreglo[i].getTotalHabitacion());
+            datos[5] = String.format("%.2f", arreglo[i].getTotalServicios());
+            datos[6] = String.format("%.2f", arreglo[i].getTotalGeneral());
             tablaFactura.addRow(datos);
         }
     }
