@@ -42,38 +42,13 @@ public class Fecha {
     }
     
     public int calcularDiferenciaDiasConOtraFecha(Fecha otra) {
-        int diasDif, mesesDif, aniosDif;
-        
-        if(this.dd>otra.dd) {
-            diasDif = this.dd-otra.dd;
-            
-        }
-        else {
-            diasDif = otra.dd - this.dd;
-            
-        }
-        
-        if(this.mm>otra.mm) {
-            mesesDif = this.mm - otra.mm;
-            
-        }
-        else {
-            mesesDif = otra.mm - this.mm;
-            
-        }
-        
-        if(this.aa > otra.aa) {
-            aniosDif = this.aa - otra.aa;
-            
-        }
-        else {
-            aniosDif = otra.aa - this.aa;
-            
-        }
-        
-        return diasDif + mesesDif*30 + aniosDif*360;
-        
-    }
+    // Convertir ambas fechas a "cantidad total de días" (aproximado)
+    long totalDiasEsta = this.dd + (this.mm * 30) + (this.aa * 360);
+    long totalDiasOtra = otra.dd + (otra.mm * 30) + (otra.aa * 360);
+    
+    // Devolver la diferencia absoluta
+    return (int) Math.abs(totalDiasEsta - totalDiasOtra);
+}
     
     public boolean esMayorAOtraFecha(Fecha otra) {
         boolean bool = false;

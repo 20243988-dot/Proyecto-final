@@ -13,7 +13,7 @@ import javax.swing.table.DefaultTableModel;
  * @author Elvis Steven
  */
 public class administradorVentana extends javax.swing.JFrame {
-    public static Fecha fechaHoy = new Fecha(29,11,25);
+    public static Fecha fechaHoy = new Fecha(29,11,2025);
     public static SistemaHotel sistema = new SistemaHotel(fechaHoy);
     public static int cont = 1;
     public static DefaultTableModel tablaEmplea = new DefaultTableModel();

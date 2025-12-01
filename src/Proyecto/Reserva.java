@@ -22,7 +22,9 @@ public class Reserva {
         this.fechaFin = fechaFin;
         this.tipoHabitacion = tipoHabitacion;
         this.huesped = huesped;
+        this.estado="Pendiente";
     }
+    
 
     
 
